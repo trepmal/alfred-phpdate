@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>kdl-php-date</string>
+	<key>connections</key>
+	<dict>
+		<key>E46E5928-67AE-4D63-BA64-280BD8EEB299</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>0D21D234-4EBD-4CDA-9618-A4E785B0D8ED</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Kailey Lampert</string>
+	<key>description</key>
+	<string></string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>PHP Date</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>100</integer>
+				<key>keyword</key>
+				<string>phpdate</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>&lt;?php
+
+$query = $argv[1] ?? '';
+
+$phpdate = get_info();
+
+$json = [ 'items' =&gt; [] ];
+
+foreach ( $phpdate as $d ) {
+
+	$title = sprintf( '%s (%s)', $d['letter'], $d['example'] );
+
+	if ( $query &amp;&amp;
+		(
+			( strlen( $query ) === 1 &amp;&amp; strtolower( $query ) === strtolower( $d['letter'] ) ) ||
+			( strlen( $query ) &gt; 2 &amp;&amp; str_contains( "{$title} {$d['description']}", $query ) )
+		)
+	) {
+
+		$json['items'][] = [
+			'title' =&gt; $title,
+			'subtitle' =&gt; $d['description'],
+			'arg' =&gt; $d['letter'],
+		];
+	}
+}
+
+die( json_encode( $json ) );
+
+function get_info() {
+	$phpdate = [
+		[
+			'letter' =&gt; 'd',
+			'description' =&gt; 'Day of the month, 2 digits with leading zeros',
+			'example' =&gt; '01 to 31',
+		],
+		[
+			'letter' =&gt; 'D',
+			'description' =&gt; 'A textual representation of a day, three letters',
+			'example' =&gt; 'Mon through Sun',
+		],
+		[
+			'letter' =&gt; 'j',
+			'description' =&gt; 'Day of the month without leading zeros',
+			'example' =&gt; '1 to 31',
+		],
+		[
+			'letter' =&gt; 'l',
+			'description' =&gt; 'A full textual representation of the day of the week',
+			'example' =&gt; 'Sunday through Saturday',
+		],
+		[
+			'letter' =&gt; 'N',
+			'description' =&gt; 'ISO 8601 numeric representation of the day of the week',
+			'example' =&gt; '1 (for Monday) through 7 (for Sunday)',
+		],
+		[
+			'letter' =&gt; 'S',
+			'description' =&gt; 'English ordinal suffix for the day of the month, 2 characters',
+			'example' =&gt; 'st, nd, rd or th. Works well with j',
+		],
+		[
+			'letter' =&gt; 'w',
+			'description' =&gt; 'Numeric representation of the day of the week',
+			'example' =&gt; '0 (for Sunday) through 6 (for Saturday)',
+		],
+		[
+			'letter' =&gt; 'z',
+			'description' =&gt; 'The day of the year (starting from 0)',
+			'example' =&gt; '0 through 365',
+		],
+		[
+			'letter' =&gt; 'W',
+			'description' =&gt; 'ISO 8601 week number of year, weeks starting on Monday',
+			'example' =&gt; '42 (the 42nd week in the year)',
+		],
+		[
+			'letter' =&gt; 'F',
+			'description' =&gt; 'A full textual representation of a month, such as January or March',
+			'example' =&gt; 'January through December',
+		],
+		[
+			'letter' =&gt; 'm',
+			'description' =&gt; 'Numeric representation of a month, with leading zeros',
+			'example' =&gt; '01 through 12',
+		],
+		[
+			'letter' =&gt; 'M',
+			'description' =&gt; 'A short textual representation of a month, three letters',
+			'example' =&gt; 'Jan through Dec',
+		],
+		[
+			'letter' =&gt; 'n',
+			'description' =&gt; 'Numeric representation of a month, without leading zeros',
+			'example' =&gt; '1 through 12',
+		],
+		[
+			'letter' =&gt; 't',
+			'description' =&gt; 'Number of days in the given month',
+			'example' =&gt; '28 through 31',
+		],
+		[
+			'letter' =&gt; 'L',
+			'description' =&gt; 'Whether it\'s a leap year',
+			'example' =&gt; '1 if it is a leap year, 0 otherwise.',
+		],
+		[
+			'letter' =&gt; 'o',
+			'description' =&gt; 'ISO 8601 week-numbering year. This has the same value as Y, except that if the ISO week number (W) belongs to the previous or next year, that year is used instead.',
+			'example' =&gt; '1999 or 2003',
+		],
+		[
+			'letter' =&gt; 'X',
+			'description' =&gt; 'An expanded full numeric representation of a year, at least 4 digits, with - for years BCE, and + for years CE.',
+			'example' =&gt; '-0055, +0787, +1999, +10191',
+		],
+		[
+			'letter' =&gt; 'x',
+			'description' =&gt; 'An expanded full numeric representation if required, or a standard full numeral representation if possible (like Y). At least four digits. Years BCE are prefixed with a -. Years beyond (and including) 10000 are prefixed by a +.',
+			'example' =&gt; '-0055, 0787, 1999, +10191',
+		],
+		[
+			'letter' =&gt; 'Y',
+			'description' =&gt; 'A full numeric representation of a year, at least 4 digits, with - for years BCE.',
+			'example' =&gt; '-0055, 0787, 1999, 2003, 10191',
+		],
+		[
+			'letter' =&gt; 'y',
+			'description' =&gt; 'A two digit representation of a year',
+			'example' =&gt; '99 or 03',
+		],
+		[
+			'letter' =&gt; 'a',
+			'description' =&gt; 'Lowercase Ante meridiem and Post meridiem',
+			'example' =&gt; 'am or pm',
+		],
+		[
+			'letter' =&gt; 'A',
+			'description' =&gt; 'Uppercase Ante meridiem and Post meridiem',
+			'example' =&gt; 'AM or PM',
+		],
+		[
+			'letter' =&gt; 'B',
+			'description' =&gt; 'Swatch Internet time',
+			'example' =&gt; '000 through 999',
+		],
+		[
+			'letter' =&gt; 'g',
+			'description' =&gt; '12-hour format of an hour without leading zeros',
+			'example' =&gt; '1 through 12',
+		],
+		[
+			'letter' =&gt; 'G',
+			'description' =&gt; '24-hour format of an hour without leading zeros',
+			'example' =&gt; '0 through 23',
+		],
+		[
+			'letter' =&gt; 'h',
+			'description' =&gt; '12-hour format of an hour with leading zeros',
+			'example' =&gt; '01 through 12',
+		],
+		[
+			'letter' =&gt; 'H',
+			'description' =&gt; '24-hour format of an hour with leading zeros',
+			'example' =&gt; '00 through 23',
+		],
+		[
+			'letter' =&gt; 'i',
+			'description' =&gt; 'Minutes with leading zeros',
+			'example' =&gt; '00 to 59',
+		],
+		[
+			'letter' =&gt; 's',
+			'description' =&gt; 'Seconds with leading zeros',
+			'example' =&gt; '00 through 59',
+		],
+		[
+			'letter' =&gt; 'u',
+			'description' =&gt; 'Microseconds. Note that date() will always generate 000000 since it takes an int parameter, whereas DateTimeInterface::format() does support microseconds if an object of type DateTimeInterface was created with microseconds.',
+			'example' =&gt; '654321',
+		],
+		[
+			'letter' =&gt; 'v',
+			'description' =&gt; 'Milliseconds. Same note applies as for u.',
+			'example' =&gt; '654',
+		],
+		[
+			'letter' =&gt; 'e',
+			'description' =&gt; 'Timezone identifier',
+			'example' =&gt; 'UTC, GMT, Atlantic/Azores',
+		],
+		[
+			'letter' =&gt; 'I',
+			'description' =&gt; 'Whether or not the date is in daylight saving time',
+			'example' =&gt; '1 if Daylight Saving Time, 0 otherwise.',
+		],
+		[
+			'letter' =&gt; 'O',
+			'description' =&gt; 'Difference to Greenwich time (GMT) without colon between hours and minutes',
+			'example' =&gt; '+0200',
+		],
+		[
+			'letter' =&gt; 'P',
+			'description' =&gt; 'Difference to Greenwich time (GMT) with colon between hours and minutes',
+			'example' =&gt; '+02:00',
+		],
+		[
+			'letter' =&gt; 'p',
+			'description' =&gt; 'The same as P, but returns Z instead of +00:00 (available as of PHP 8.0.0)',
+			'example' =&gt; 'Z or +02:00',
+		],
+		[
+			'letter' =&gt; 'T',
+			'description' =&gt; 'Timezone abbreviation, if known; otherwise the GMT offset.',
+			'example' =&gt; 'EST, MDT, +05',
+		],
+		[
+			'letter' =&gt; 'Z',
+			'description' =&gt; 'Timezone offset in seconds. The offset for timezones west of UTC is always negative, and for those east of UTC is always positive.',
+			'example' =&gt; '-43200 through 50400',
+		],
+		[
+			'letter' =&gt; 'c',
+			'description' =&gt; 'ISO 8601 date. Only compatible with the non-expanded format (up to year 9999). Later dates will result in an invalid string. For later dates and expanded format, see x and X.',
+			'example' =&gt; '2004-02-12T15:19:21+00:00',
+		],
+		[
+			'letter' =&gt; 'r',
+			'description' =&gt; '» RFC 2822/» RFC 5322 formatted date',
+			'example' =&gt; 'Thu, 21 Dec 2000 16:01:07 +0200',
+		],
+		[
+			'letter' =&gt; 'U',
+			'description' =&gt; 'Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)',
+			'example' =&gt; 'See also time()',
+		],
+	];
+	return $phpdate;
+}</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string></string>
+				<key>type</key>
+				<integer>1</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>E46E5928-67AE-4D63-BA64-280BD8EEB299</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>0D21D234-4EBD-4CDA-9618-A4E785B0D8ED</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>0D21D234-4EBD-4CDA-9618-A4E785B0D8ED</key>
+		<dict>
+			<key>xpos</key>
+			<real>265</real>
+			<key>ypos</key>
+			<real>150</real>
+		</dict>
+		<key>E46E5928-67AE-4D63-BA64-280BD8EEB299</key>
+		<dict>
+			<key>xpos</key>
+			<real>85</real>
+			<key>ypos</key>
+			<real>150</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
+	<key>webaddress</key>
+	<string>trepmal.com/alfredapp</string>
+</dict>
+</plist>
