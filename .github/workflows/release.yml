@@ -18,9 +18,9 @@ jobs:
       - name: Set up workflow variables
         id: vars
         run: |
-          echo "::set-output name=workflow_name::alfred-phpdate"
-          version=$(xmllint --xpath 'string(//key[.="version"]/following-sibling::*[1])' info.plist)
-          echo "::set-output name=version::$version"
+          echo "workflow_name=alfred-phpdate" >> $GITHUB_OUTPUT
+          version=$(grep -A1 '<key>version</key>' info.plist | tail -n1 | sed -e 's/<[^>]*>//g' -e 's/^ *//')
+          echo "version=$version" >> $GITHUB_OUTPUT
 
       - name: Create .alfredworkflow file
         run: |
