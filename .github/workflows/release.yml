@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'info.plist'
+      - 'src/**'
 
 jobs:
   build-and-release:

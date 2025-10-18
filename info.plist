@@ -4,6 +4,8 @@
 <dict>
 	<key>bundleid</key>
 	<string>kdl-php-date</string>
+	<key>category</key>
+	<string>Tools</string>
 	<key>connections</key>
 	<dict>
 		<key>E46E5928-67AE-4D63-BA64-280BD8EEB299</key>
