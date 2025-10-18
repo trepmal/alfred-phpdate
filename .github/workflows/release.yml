@@ -18,13 +18,14 @@ jobs:
       - name: Set up workflow variables
         id: vars
         run: |
-          echo "workflow_name=alfred-phpdate" >> $GITHUB_OUTPUT
+          workflow_name=$(grep -A1 '<key>name</key>' info.plist | tail -n1 | sed -e 's/<[^>]*>//g' | awk '{$1=$1;print}' | tr -d '\r')
+          echo "workflow_name=$workflow_name" >> $GITHUB_OUTPUT
           version=$(grep -A1 '<key>version</key>' info.plist | tail -n1 | sed -e 's/<[^>]*>//g' | tr -d '[:space:]')
           echo "version=$version" >> $GITHUB_OUTPUT
 
       - name: Create .alfredworkflow file
         run: |
-          zip -r ${{ steps.vars.outputs.workflow_name }}.alfredworkflow info.plist -x prefs.plist
+          zip -r "${{ steps.vars.outputs.workflow_name }}.alfredworkflow" info.plist -x prefs.plist
 
       - name: Create Release
         id: create_release
@@ -34,6 +35,6 @@ jobs:
           name: Release v${{ steps.vars.outputs.version }}
           draft: false
           prerelease: false
-          files: ${{ steps.vars.outputs.workflow_name }}.alfredworkflow
+          files: "${{ steps.vars.outputs.workflow_name }}.alfredworkflow"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
