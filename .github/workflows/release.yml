@@ -19,7 +19,7 @@ jobs:
         id: vars
         run: |
           echo "workflow_name=alfred-phpdate" >> $GITHUB_OUTPUT
-          version=$(grep -A1 '<key>version</key>' info.plist | tail -n1 | sed -e 's/<[^>]*>//g' -e 's/^ *//')
+          version=$(grep -A1 '<key>version</key>' info.plist | tail -n1 | sed -e 's/<[^>]*>//g' | tr -d '[:space:]')
           echo "version=$version" >> $GITHUB_OUTPUT
 
       - name: Create .alfredworkflow file
