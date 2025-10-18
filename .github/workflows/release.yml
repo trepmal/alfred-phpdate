@@ -19,6 +19,8 @@ jobs:
         id: vars
         run: |
           echo "::set-output name=workflow_name::alfred-phpdate"
+          version=$(xmllint --xpath 'string(//key[.="version"]/following-sibling::*[1])' info.plist)
+          echo "::set-output name=version::$version"
 
       - name: Create .alfredworkflow file
         run: |
@@ -28,8 +30,8 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.sha }}
-          name: Release ${{ github.sha }}
+          tag_name: v${{ steps.vars.outputs.version }}
+          name: Release v${{ steps.vars.outputs.version }}
           draft: false
           prerelease: false
           files: ${{ steps.vars.outputs.workflow_name }}.alfredworkflow

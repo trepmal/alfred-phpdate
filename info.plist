@@ -383,7 +383,7 @@ function get_info() {
 		</dict>
 	</array>
 	<key>version</key>
-	<string>1</string>
+	<string>0.0.1</string>
 	<key>webaddress</key>
 	<string>trepmal.com/alfredapp</string>
 </dict>
