@@ -23,6 +23,31 @@ jobs:
           version=$(grep -A1 '<key>version</key>' info.plist | tail -n1 | sed -e 's/<[^>]*>//g' | tr -d '[:space:]')
           echo "version=$version" >> $GITHUB_OUTPUT
 
+      - name: Get latest release tag
+        id: latest_tag
+        run: |
+          latest_tag=$(git tag --list 'v*' --sort=-v:refname | head -n1)
+          echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
+          latest_version=$(echo "$latest_tag" | sed 's/^v//')
+          echo "latest_version=$latest_version" >> $GITHUB_OUTPUT
+
+      - name: Check version increment
+        run: |
+          current_version="${{ steps.vars.outputs.version }}"
+          latest_version="${{ steps.latest_tag.outputs.latest_version }}"
+          if [ -z "$latest_version" ]; then
+            echo "No previous release tag found. Proceeding."
+            exit 0
+          fi
+          if [ "$current_version" = "$latest_version" ]; then
+            echo "Version has not been incremented. Current version ($current_version) matches latest release ($latest_version)."
+            exit 1
+          fi
+          if [ "$(printf '%s\n%s' "$latest_version" "$current_version" | sort -V | tail -n1)" != "$current_version" ]; then
+            echo "Current version ($current_version) is not greater than latest release ($latest_version)."
+            exit 1
+          fi
+          echo "Version increment check passed."
       - name: Create .alfredworkflow file
         run: |
           zip -r "${{ steps.vars.outputs.workflow_name }}.alfredworkflow" info.plist -x prefs.plist
