@@ -25,7 +25,7 @@
 	<key>createdby</key>
 	<string>Kailey Lampert</string>
 	<key>description</key>
-	<string></string>
+	<string>PHP Date formatting cheatsheet</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
@@ -310,9 +310,9 @@ function get_info() {
 				<key>scriptfile</key>
 				<string></string>
 				<key>subtext</key>
-				<string></string>
+				<string>search...</string>
 				<key>title</key>
-				<string></string>
+				<string>PHP Date</string>
 				<key>type</key>
 				<integer>1</integer>
 				<key>withspace</key>
@@ -389,8 +389,8 @@ function get_info() {
 		</dict>
 	</array>
 	<key>version</key>
-	<string>1.0.0</string>
+	<string>1.0.1</string>
 	<key>webaddress</key>
-	<string>trepmal.com/alfredapp</string>
+	<string>https://github.com/trepmal/alfred-phpdate</string>
 </dict>
 </plist>
