@@ -346,7 +346,7 @@ function get_info() {
 		</dict>
 	</array>
 	<key>readme</key>
-	<string>.</string>
+	<string>..</string>
 	<key>uidata</key>
 	<dict>
 		<key>0D21D234-4EBD-4CDA-9618-A4E785B0D8ED</key>
